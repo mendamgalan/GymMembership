@@ -8,6 +8,6 @@
 Атрибут: төрөл, дугаар 
 Метод: vip эсэх 
 
-![alt text](image.png)
+![alt text](download.jpg)
 
 ![alt text](<Screenshot (39).png>)
