@@ -1,3 +1,4 @@
+package src;
 /**
  * Represents a gym member.
  * Contains personal details and the associated membership card.

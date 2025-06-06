@@ -1,5 +1,7 @@
+package src.test;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import src.Card;
 
 import java.time.LocalDate;
 
