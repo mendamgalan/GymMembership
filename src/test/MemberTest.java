@@ -57,4 +57,19 @@ public class MemberTest {
         member.replaceCard("C789");  // should not replace because not reported lost
         assertEquals("A123", member.getCard().getNumber());  // old card remains
     }
+    @Test
+    public void testRenewMembershipExtendsDuration() {
+        // Create a new Card with 3 months
+        Card card = new Card("12345", false, 3);
+
+        // Create a Member with the card
+        Member member = new Member("John Doe", "99112233", "john@example.com");
+        member.registerMembership(card);
+
+        // Renew for 2 more months
+        member.renewMembership(2);
+
+        // Expected duration = 3 + 2 = 5
+        assertEquals(5, member.getCard().getDuration());
+    }
 }
