@@ -34,7 +34,7 @@
 
 Өөрийн мэдээллийг харах, хянах
 
-![image](https://github.com/user-attachments/assets/d6c2f31f-f1b1-41d6-98fe-ff6f4da2d628)
+![image](https://github.com/user-attachments/assets/1cbf9515-f544-45c3-85e0-0e4fc46ba7bc)
 
  ![image](https://github.com/user-attachments/assets/7b866af1-3db1-40e4-a9d1-4851055ff5c4)  ![image](https://github.com/user-attachments/assets/1ea76000-7bc0-4c07-a099-caf6ac8d703f)
 
