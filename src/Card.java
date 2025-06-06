@@ -109,4 +109,7 @@ public class Card {
     public LocalDate getExpiryDate() {
         return expiryDate;
     }
+    public void setDuration(int duration){
+        this.duration = duration;
+    }
 }

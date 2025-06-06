@@ -29,4 +29,11 @@ public class CardTest {
         card.deactivate();
         assertFalse(card.isActive());
     }
+    @Test
+    public void testCardSetDuration() {
+        Card card = new Card("67890", true, 6);
+        card.setDuration(12); // replaces current duration
+        assertEquals(12, card.getDuration());
+    }
+
 }
