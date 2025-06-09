@@ -1,4 +1,5 @@
 package src;
+
 import java.time.LocalDate;
 
 /**
@@ -17,11 +18,19 @@ public class Card {
     /**
      * Constructs a new Card with the given number, VIP status, and duration.
      *
-     * @param number  the card number
-     * @param isVip   whether the card is a VIP membership
+     * @param number   the card number
+     * @param isVip    whether the card is a VIP membership
      * @param duration duration in months
+     * @throws IllegalArgumentException if card number is invalid or duration is not positive
      */
     public Card(String number, boolean isVip, int duration) {
+        if (number == null || number.trim().isEmpty()) {
+            throw new IllegalArgumentException("Card number cannot be null or empty.");
+        }
+        if (duration <= 0) {
+            throw new IllegalArgumentException("Duration must be greater than zero.");
+        }
+
         this.number = number;
         this.isVip = isVip;
         this.duration = duration;
@@ -30,38 +39,18 @@ public class Card {
         this.expiryDate = issueDate.plusMonths(duration);
     }
 
-    /**
-     * Returns the card number.
-     *
-     * @return the card number
-     */
     public String getNumber() {
         return number;
     }
 
-    /**
-     * Returns whether the card is for a VIP member.
-     *
-     * @return true if VIP, false otherwise
-     */
     public boolean isVip() {
         return isVip;
     }
 
-    /**
-     * Sets the VIP status of the card.
-     *
-     * @param vip the new VIP status
-     */
     public void setVip(boolean vip) {
         isVip = vip;
     }
 
-    /**
-     * Returns the duration of the card in months.
-     *
-     * @return the duration in months
-     */
     public int getDuration() {
         return duration;
     }
@@ -70,17 +59,16 @@ public class Card {
      * Adds months to the membership duration.
      *
      * @param months the number of months to extend
+     * @throws IllegalArgumentException if months is not positive
      */
     public void extendDuration(int months) {
+        if (months <= 0) {
+            throw new IllegalArgumentException("Extension months must be greater than zero.");
+        }
         this.duration += months;
         this.expiryDate = this.expiryDate.plusMonths(months);
     }
 
-    /**
-     * Returns whether the card is active.
-     *
-     * @return true if the card is active, false otherwise
-     */
     public boolean isActive() {
         return isActive;
     }
@@ -92,24 +80,25 @@ public class Card {
         isActive = false;
     }
 
-    /**
-     * Returns the issue date of the card.
-     *
-     * @return the issue date
-     */
     public LocalDate getIssueDate() {
         return issueDate;
     }
 
-    /**
-     * Returns the expiry date of the card.
-     *
-     * @return the expiry date
-     */
     public LocalDate getExpiryDate() {
         return expiryDate;
     }
-    public void setDuration(int duration){
+
+    /**
+     * Sets the duration manually and recalculates expiry date.
+     *
+     * @param duration new duration in months
+     * @throws IllegalArgumentException if duration is not positive
+     */
+    public void setDuration(int duration) {
+        if (duration <= 0) {
+            throw new IllegalArgumentException("Duration must be greater than zero.");
+        }
         this.duration = duration;
+        this.expiryDate = issueDate.plusMonths(duration);
     }
 }
