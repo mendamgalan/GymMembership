@@ -49,7 +49,7 @@ public class MemberTest {
 
         assertEquals("B456", member.getCard().getNumber());
         assertTrue(member.getCard().isActive());
-        assertEquals(6, member.getCard().getDuration());  // same duration
+        assertEquals(6, member.getCard().getDuration());  //same duration
     }
 
    @Test

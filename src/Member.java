@@ -106,7 +106,7 @@ public class Member {
         card.deactivate();
     }
 
-    /**
+    /*
      * Replaces the lost card with a new card if the old one is deactivated.
      *
      * @param newCardNumber the number of the new card

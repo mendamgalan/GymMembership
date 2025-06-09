@@ -15,7 +15,7 @@ public class Card {
     private LocalDate issueDate;
     private LocalDate expiryDate;
 
-    /**
+    /** 
      * Constructs a new Card with the given number, VIP status, and duration.
      *
      * @param number   the card number

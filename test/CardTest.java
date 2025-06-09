@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public class CardTest {
 
-    @Test
+    @Test  
     public void testCardCreation() {
         Card card = new Card("12345", true, 6);
         assertEquals("12345", card.getNumber());
