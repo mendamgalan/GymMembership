@@ -4,8 +4,17 @@ import static org.junit.jupiter.api.Assertions.*;
 import src.Card;
 
 import java.time.LocalDate;
+import org.junit.jupiter.api.BeforeEach;
+import java.util.List;
 
 public class CardTest {
+    private LogTestUtil logTestUtil;
+
+    @BeforeEach
+    public void setup() {
+        logTestUtil = new LogTestUtil();
+        logTestUtil.setup(Card.class);
+    }
 
     @Test  
     public void testCardCreation() {
@@ -67,6 +76,22 @@ public class CardTest {
             card.setDuration(0);
         });
         assertEquals("Duration must be greater than zero.", exception.getMessage());
+    }
+
+    @Test
+    public void testCardCreationLogging() {
+        Card card = new Card("LOG1", false, 2);
+        List<String> logs = logTestUtil.getMessagesContaining("Card created");
+        assertTrue(logs.stream().anyMatch(msg -> msg.contains("LOG1")));
+    }
+
+    @Test
+    public void testDeactivateCardLogging() {
+        Card card = new Card("LOG2", false, 2);
+        logTestUtil.clear();
+        card.deactivate();
+        List<String> logs = logTestUtil.getMessagesContaining("Card deactivated");
+        assertTrue(logs.stream().anyMatch(msg -> msg.contains("LOG2")));
     }
 
 }

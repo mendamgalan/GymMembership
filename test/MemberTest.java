@@ -1,19 +1,24 @@
 package test;
+
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 import srcCode.Member;
 import src.Card;
+import java.util.List;
 
 public class MemberTest {
-
     private Member member;
     private Card card;
+    private LogTestUtil logTestUtil;
 
     @BeforeEach
     public void setup() {
+        logTestUtil = new LogTestUtil();
+        logTestUtil.setup(Member.class);
+        
         member = new Member("Bold", "99119911", "bold@example.com");
-        card = new Card("A123", false, 6); // Regular
+        card = new Card("A123", false, 6);
         member.registerMembership(card);
     }
 
@@ -52,16 +57,16 @@ public class MemberTest {
         assertEquals(6, member.getCard().getDuration());  //same duration
     }
 
-   @Test
+    @Test
     public void testReplaceCardWithoutReportingLost() {
-    member.registerMembership(new Card("A123", false, 6));
+        member.registerMembership(new Card("A123", false, 6));
 
-    Exception exception = assertThrows(IllegalStateException.class, () -> {
-        member.replaceCard("C789");  // should fail, card is still active
-    });
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            member.replaceCard("C789");  // should fail, card is still active
+        });
 
-    assertEquals("Cannot replace an active card. Please deactivate it first.", exception.getMessage());
-}
+        assertEquals("Cannot replace an active card. Please deactivate it first.", exception.getMessage());
+    }
 
     @Test
     public void testRenewMembershipExtendsDuration() {
@@ -78,7 +83,8 @@ public class MemberTest {
         // Expected duration = 3 + 2 = 5
         assertEquals(5, member.getCard().getDuration());
     }
-     @Test
+
+    @Test
     public void testInvalidMemberNameThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new Member("", "99112233", "email@example.com");
@@ -162,5 +168,53 @@ public class MemberTest {
             member.replaceCard("");
         });
         assertEquals("New card number cannot be null or empty.", exception.getMessage());
+    }
+
+    @Test
+    public void testMemberCreationLogging() {
+        List<String> logs = logTestUtil.getMessagesContaining("Member created");
+        assertEquals(1, logs.size());
+        assertTrue(logs.get(0).contains("Bold"));
+        assertTrue(logs.get(0).contains("99119911"));
+        assertTrue(logs.get(0).contains("bold@example.com"));
+    }
+
+    @Test
+    public void testRegisterMembershipLogging() {
+        List<String> logs = logTestUtil.getMessagesContaining("registered card");
+        assertEquals(1, logs.size());
+        assertTrue(logs.get(0).contains("Bold"));
+        assertTrue(logs.get(0).contains("A123"));
+    }
+
+    @Test
+    public void testErrorLoggingForInvalidName() {
+        try {
+            new Member("", "123", "test@test.com");
+            fail("Expected exception not thrown");
+        } catch (IllegalArgumentException e) {
+            List<String> logs = logTestUtil.getMessagesContaining("Name cannot be null or empty");
+            assertEquals(1, logs.size());
+        }
+    }
+
+    @Test
+    public void testChangePlanLogging() {
+        member.changePlan(true);
+        
+        List<String> logs = logTestUtil.getMessagesContaining("changed plan to VIP");
+        assertEquals(1, logs.size());
+        assertTrue(logs.get(0).contains("Bold"));
+        assertTrue(logs.get(0).contains("true"));
+    }
+
+    @Test
+    public void testRenewMembershipLogging() {
+        member.renewMembership(3);
+        
+        List<String> logs = logTestUtil.getMessagesContaining("renewed membership");
+        assertEquals(1, logs.size());
+        assertTrue(logs.get(0).contains("Bold"));
+        assertTrue(logs.get(0).contains("3"));
     }
 }
