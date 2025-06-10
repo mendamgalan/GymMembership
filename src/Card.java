@@ -1,6 +1,8 @@
 package src;
 
 import java.time.LocalDate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Represents a membership card in the gym system.
@@ -8,6 +10,8 @@ import java.time.LocalDate;
  * duration in months, and its active status.
  */
 public class Card {
+    private static final Logger logger = LogManager.getLogger(Card.class);
+
     private String number;
     private boolean isVip;
     private int duration;
@@ -25,9 +29,11 @@ public class Card {
      */
     public Card(String number, boolean isVip, int duration) {
         if (number == null || number.trim().isEmpty()) {
+            logger.error("Card number cannot be null or empty.");
             throw new IllegalArgumentException("Card number cannot be null or empty.");
         }
         if (duration <= 0) {
+            logger.error("Duration must be greater than zero.");
             throw new IllegalArgumentException("Duration must be greater than zero.");
         }
 
@@ -37,6 +43,8 @@ public class Card {
         this.isActive = true;
         this.issueDate = LocalDate.now();
         this.expiryDate = issueDate.plusMonths(duration);
+
+        logger.info("Card created: number=" + number + ", VIP=" + isVip + ", duration=" + duration);
     }
 
     public String getNumber() {
@@ -49,6 +57,7 @@ public class Card {
 
     public void setVip(boolean vip) {
         isVip = vip;
+        logger.info("Card " + number + " VIP status changed to: " + vip);
     }
 
     public int getDuration() {
@@ -63,10 +72,12 @@ public class Card {
      */
     public void extendDuration(int months) {
         if (months <= 0) {
+            logger.error("Extension months must be greater than zero.");
             throw new IllegalArgumentException("Extension months must be greater than zero.");
         }
         this.duration += months;
         this.expiryDate = this.expiryDate.plusMonths(months);
+        logger.info("Card " + number + " extended duration by " + months + " months. New duration: " + duration);
     }
 
     public boolean isActive() {
@@ -78,6 +89,7 @@ public class Card {
      */
     public void deactivate() {
         isActive = false;
+        logger.info("Card " + number + " deactivated.");
     }
 
     public LocalDate getIssueDate() {
@@ -96,9 +108,11 @@ public class Card {
      */
     public void setDuration(int duration) {
         if (duration <= 0) {
+            logger.error("Duration must be greater than zero.");
             throw new IllegalArgumentException("Duration must be greater than zero.");
         }
         this.duration = duration;
         this.expiryDate = issueDate.plusMonths(duration);
+        logger.info("Card " + number + " duration set manually to " + duration);
     }
 }

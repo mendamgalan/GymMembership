@@ -2,7 +2,7 @@ package test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import src.Member;
+import srcCode.Member;
 import src.Card;
 
 public class MemberTest {
